@@ -20,12 +20,27 @@ let board = [];
 let currentPlayer = BLACK;
 let gameOver = false;
 
+const welcomeScreen = document.getElementById("welcome-screen");
+const gameScreen = document.getElementById("game-screen");
+
+const startButton = document.getElementById("start-button");
+const homeButton = document.getElementById("home-button");
+const restartButton = document.getElementById("restart-button");
+
 const boardElement = document.getElementById("board");
 const turnDisplay = document.getElementById("turn-display");
+const turnPiece = document.getElementById("turn-piece");
+
 const blackScoreElement = document.getElementById("black-score");
 const whiteScoreElement = document.getElementById("white-score");
 const messageElement = document.getElementById("message");
-const restartButton = document.getElementById("restart-button");
+
+const resultModal = document.getElementById("result-modal");
+const resultTitle = document.getElementById("result-title");
+const resultScore = document.getElementById("result-score");
+
+const playAgainButton = document.getElementById("play-again-button");
+const modalHomeButton = document.getElementById("modal-home-button");
 
 function createEmptyBoard() {
     return Array.from(
@@ -45,9 +60,23 @@ function initializeGame() {
     currentPlayer = BLACK;
     gameOver = false;
 
+    resultModal.classList.add("hidden");
     messageElement.textContent = "Black moves first.";
 
     renderGame();
+}
+
+function showGameScreen() {
+    welcomeScreen.classList.add("hidden");
+    gameScreen.classList.remove("hidden");
+
+    initializeGame();
+}
+
+function showWelcomeScreen() {
+    resultModal.classList.add("hidden");
+    gameScreen.classList.add("hidden");
+    welcomeScreen.classList.remove("hidden");
 }
 
 function isInsideBoard(row, col) {
@@ -67,7 +96,13 @@ function playerName(player) {
     return player === BLACK ? "Black" : "White";
 }
 
-function getFlipsInDirection(row, col, rowStep, colStep, player) {
+function getFlipsInDirection(
+    row,
+    col,
+    rowStep,
+    colStep,
+    player
+) {
     const opponent = opponentOf(player);
     const flips = [];
 
@@ -121,16 +156,12 @@ function getFlips(row, col, player) {
     return allFlips;
 }
 
-function isValidMove(row, col, player) {
-    return getFlips(row, col, player).length > 0;
-}
-
 function getValidMoves(player) {
     const moves = [];
 
     for (let row = 0; row < BOARD_SIZE; row += 1) {
         for (let col = 0; col < BOARD_SIZE; col += 1) {
-            if (isValidMove(row, col, player)) {
+            if (getFlips(row, col, player).length > 0) {
                 moves.push([row, col]);
             }
         }
@@ -148,7 +179,7 @@ function playMove(row, col) {
 
     if (flips.length === 0) {
         messageElement.textContent =
-            "That move is not valid. Choose a highlighted square.";
+            "Invalid move. Choose a highlighted square.";
 
         return;
     }
@@ -201,15 +232,19 @@ function finishGame() {
     const whiteScore = countPieces(WHITE);
 
     if (blackScore > whiteScore) {
-        messageElement.textContent =
-            `Game over. Black wins ${blackScore}–${whiteScore}.`;
+        resultTitle.textContent = "Black Wins!";
     } else if (whiteScore > blackScore) {
-        messageElement.textContent =
-            `Game over. White wins ${whiteScore}–${blackScore}.`;
+        resultTitle.textContent = "White Wins!";
     } else {
-        messageElement.textContent =
-            `Game over. The result is a ${blackScore}–${whiteScore} tie.`;
+        resultTitle.textContent = "It's a Draw!";
     }
+
+    resultScore.textContent =
+        `Black ${blackScore} — ${whiteScore} White`;
+
+    messageElement.textContent = "Game over.";
+
+    resultModal.classList.remove("hidden");
 }
 
 function createPiece(pieceValue) {
@@ -267,15 +302,25 @@ function renderBoard() {
 }
 
 function renderStatus() {
-    const blackScore = countPieces(BLACK);
-    const whiteScore = countPieces(WHITE);
+    blackScoreElement.textContent =
+        String(countPieces(BLACK));
 
-    blackScoreElement.textContent = String(blackScore);
-    whiteScoreElement.textContent = String(whiteScore);
+    whiteScoreElement.textContent =
+        String(countPieces(WHITE));
 
-    turnDisplay.textContent = gameOver
-        ? "Game finished"
-        : `Current turn: ${playerName(currentPlayer)}`;
+    turnDisplay.textContent =
+        gameOver ? "Finished" : playerName(currentPlayer);
+
+    turnPiece.classList.remove(
+        "black-mini",
+        "white-mini"
+    );
+
+    if (currentPlayer === BLACK) {
+        turnPiece.classList.add("black-mini");
+    } else {
+        turnPiece.classList.add("white-mini");
+    }
 }
 
 function renderGame() {
@@ -283,6 +328,15 @@ function renderGame() {
     renderStatus();
 }
 
+startButton.addEventListener("click", showGameScreen);
+
+homeButton.addEventListener("click", showWelcomeScreen);
+
 restartButton.addEventListener("click", initializeGame);
 
-initializeGame();
+playAgainButton.addEventListener("click", initializeGame);
+
+modalHomeButton.addEventListener(
+    "click",
+    showWelcomeScreen
+);
