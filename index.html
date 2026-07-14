@@ -2,87 +2,122 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Reversi Game</title>
+    <title>Reversi</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <main class="page">
-        <header class="hero">
-            <div class="hero-badge">CLASSIC STRATEGY BOARD GAME</div>
+    <!-- Welcome page -->
+    <main id="welcome-screen" class="screen welcome-screen">
+        <section class="welcome-card">
+            <p class="eyebrow">CLASSIC STRATEGY GAME</p>
 
             <h1>REVERSI</h1>
 
-            <p class="hero-subtitle">
-                Outsmart your opponent by trapping and flipping their pieces.
+            <p class="description">
+                Place your pieces carefully, surround your opponent,
+                and take control of the board.
             </p>
-        </header>
 
-        <section class="game-layout">
-            <aside class="side-panel">
-                <div class="card status-card">
-                    <h2>Game Status</h2>
+            <div class="rules">
+                <h2>How to Play</h2>
 
-                    <div id="turn-display" class="turn-display">
-                        Current turn: Black
-                    </div>
+                <p>
+                    Place a piece so that one or more opponent pieces are
+                    trapped between two of your pieces.
+                </p>
 
-                    <div class="scores">
-                        <div class="score-box black-score-box">
-                            <span class="score-label">Black</span>
-                            <strong id="black-score">2</strong>
-                        </div>
+                <p>
+                    The trapped pieces flip to your colour.
+                    The player with the most pieces at the end wins.
+                </p>
+            </div>
 
-                        <div class="score-box white-score-box">
-                            <span class="score-label">White</span>
-                            <strong id="white-score">2</strong>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card rules-card">
-                    <h2>How to Play</h2>
-
-                    <ul>
-                        <li>Black moves first.</li>
-                        <li>Place a piece to trap one or more opponent pieces.</li>
-                        <li>Trapped pieces flip to your colour.</li>
-                        <li>If you have no valid move, your turn is skipped.</li>
-                        <li>The player with more pieces at the end wins.</li>
-                    </ul>
-                </div>
-
-                <button id="restart-button" type="button" class="restart-button">
-                    Restart Game
-                </button>
-            </aside>
-
-            <section class="board-panel">
-                <div id="message" class="message">
-                    Black moves first.
-                </div>
-
-                <div class="board-frame">
-                    <div class="board-header">
-                        <span>Reversi Board</span>
-                        <span>8 × 8</span>
-                    </div>
-
-                    <section
-                        id="board"
-                        class="board"
-                        aria-label="Reversi game board"
-                    ></section>
-                </div>
-            </section>
+            <button id="start-button" class="primary-button" type="button">
+                Start Game
+            </button>
         </section>
     </main>
+
+    <!-- Game page -->
+    <main id="game-screen" class="screen game-screen hidden">
+        <header class="game-header">
+            <button id="home-button" class="icon-button" type="button">
+                ← Home
+            </button>
+
+            <div class="turn-card">
+                <span class="turn-label">CURRENT TURN</span>
+
+                <div class="turn-player">
+                    <span id="turn-piece" class="mini-piece black-mini"></span>
+                    <strong id="turn-display">Black</strong>
+                </div>
+            </div>
+
+            <button id="restart-button" class="icon-button" type="button">
+                Restart
+            </button>
+        </header>
+
+        <section class="score-bar">
+            <div class="player-score">
+                <span class="mini-piece black-mini"></span>
+                <span>Black</span>
+                <strong id="black-score">2</strong>
+            </div>
+
+            <div id="message" class="game-message">
+                Black moves first.
+            </div>
+
+            <div class="player-score">
+                <span class="mini-piece white-mini"></span>
+                <span>White</span>
+                <strong id="white-score">2</strong>
+            </div>
+        </section>
+
+        <section class="wood-table">
+            <div class="board-frame">
+                <section
+                    id="board"
+                    class="board"
+                    aria-label="Reversi game board"
+                ></section>
+            </div>
+        </section>
+    </main>
+
+    <!-- Result popup -->
+    <div id="result-modal" class="modal hidden">
+        <div class="modal-overlay"></div>
+
+        <section class="modal-card">
+            <p class="modal-eyebrow">GAME OVER</p>
+
+            <h2 id="result-title">Black Wins!</h2>
+
+            <p id="result-score">Black 34 — 30 White</p>
+
+            <div class="modal-buttons">
+                <button id="play-again-button" class="primary-button" type="button">
+                    Play Again
+                </button>
+
+                <button id="modal-home-button" class="secondary-button" type="button">
+                    Back to Home
+                </button>
+            </div>
+        </section>
+    </div>
 
     <script src="app.js"></script>
 </body>
