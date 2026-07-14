@@ -44,5 +44,5 @@ Private source access is available to potential employers upon request.
 Clone the repository and open `index.html` in a browser:
 
 ```bash
-git clone https://github.com/Felicity-Jin/reversi-game.git
+git clone https://felicity-jin.github.io/reversi-game/
 cd reversi-game
