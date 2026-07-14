@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Reversi Game</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main class="game-container">
+        <header>
+            <h1>Reversi</h1>
+
+            <p class="subtitle">
+                A browser-based implementation of the classic strategy game.
+            </p>
+        </header>
+
+        <section class="game-info">
+            <div id="turn-display">
+                Current turn: Black
+            </div>
+
+            <div class="scores">
+                <span>
+                    Black:
+                    <strong id="black-score">2</strong>
+                </span>
+
+                <span>
+                    White:
+                    <strong id="white-score">2</strong>
+                </span>
+            </div>
+        </section>
+
+        <div id="message" class="message">
+            Black moves first.
+        </div>
+
+        <section
+            id="board"
+            class="board"
+            aria-label="Reversi game board"
+        ></section>
+
+        <section class="controls">
+            <button id="restart-button" type="button">
+                Restart Game
+            </button>
+        </section>
+
+        <section class="instructions">
+            <h2>How to Play</h2>
+
+            <p>
+                Place a piece so that one or more opponent pieces are trapped
+                between your new piece and another one of your pieces.
+            </p>
+
+            <p>
+                The trapped pieces will be flipped to your colour.
+            </p>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
